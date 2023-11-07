@@ -1,0 +1,34 @@
+atividade 3:
+
+import numpy as np
+import pandas as pd
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+
+# Criar o DataFrame com os dados dos dias da semana e o número de clientes
+data = {
+    'Dia da Semana': [1, 2, 3, 4, 5, 6, 7],
+    'Nº de Clientes': [15, 20, 30, 100, 350, 500, 700]
+}
+
+df = pd.DataFrame(data)
+
+# Criar uma matriz numpy com os dados
+X = df[['Nº de Clientes']].to_numpy()
+
+# Especificar o número de clusters desejado (por exemplo, 3 clusters)
+n_clusters = 3
+
+# Aplicar o algoritmo K-means
+kmeans = KMeans(n_clusters=n_clusters)
+kmeans.fit(X)
+
+# Adicionar as informações dos clusters de volta ao DataFrame
+df['Cluster'] = kmeans.labels_
+
+# Visualizar os resultados
+plt.scatter(df['Dia da Semana'], df['Nº de Clientes'], c=kmeans.labels_, cmap='viridis')
+plt.xlabel('Dia da Semana')
+plt.ylabel('Nº de Clientes')
+plt.title('Clusterização dos Dias de Maior Movimento')
+plt.show()

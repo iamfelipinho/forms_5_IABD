@@ -1,0 +1,35 @@
+atividade 2:
+
+
+import numpy as np
+import pandas as pd
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+
+# Criar o DataFrame com os dados dos setores e números de produtos fabricados
+data = {
+    'Setor': [1, 2, 3, 4, 5, 6, 7, 8],
+    'Nº de Produtos Fabricados': [100, 50, 15, 200, 500, 1000, 375, 450]
+}
+
+df = pd.DataFrame(data)
+
+# Criar uma matriz numpy com os dados
+X = df[['Nº de Produtos Fabricados']].to_numpy()
+
+# Especificar o número de clusters desejado (por exemplo, 3 clusters)
+n_clusters = 3
+
+# Aplicar o algoritmo K-means
+kmeans = KMeans(n_clusters=n_clusters)
+kmeans.fit(X)
+
+# Adicionar as informações dos clusters de volta ao DataFrame
+df['Cluster'] = kmeans.labels_
+
+# Visualizar os resultados
+plt.scatter(df['Setor'], df['Nº de Produtos Fabricados'], c=kmeans.labels_, cmap='viridis')
+plt.xlabel('Setor')
+plt.ylabel('Nº de Produtos Fabricados')
+plt.title('Clusterização de Setores Produtivos')
+plt.show()

@@ -1,0 +1,38 @@
+atividade 5:
+
+import numpy as np
+import pandas as pd
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+
+# Criar o DataFrame com os dados das máquinas, temperatura, vibração e corrente elétrica
+data = {
+    'Máquina': ['M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'M9', 'M10'],
+    'Temperatura (°C)': [70.2, 65.1, 75.5, 80.3, 68.7, 72.9, 78.6, 66.4, 73.1, 69.5],
+    'Vibração': [12.5, 8.2, 15.6, 10.2, 11.8, 14.3, 9.8, 8.9, 13.7, 12.1],
+    'Corrente': [4.7, 3.9, 5.1, 4.5, 4.2, 5.3, 4.8, 4.0, 5.0, 4.3]
+}
+
+df = pd.DataFrame(data)
+
+# Criar uma matriz numpy com os dados de temperatura, vibração e corrente
+X = df[['Temperatura (°C)', 'Vibração', 'Corrente']].to_numpy()
+
+# Especificar o número de clusters desejado (por exemplo, 3 clusters)
+n_clusters = 3
+
+# Aplicar o algoritmo K-means
+kmeans = KMeans(n_clusters=n_clusters)
+kmeans.fit(X)
+
+# Adicionar as informações dos clusters de volta ao DataFrame
+df['Cluster'] = kmeans.labels_
+
+# Plote um boxplot dos grupos
+plt.figure(figsize=(10, 6))
+df.boxplot(column=['Temperatura (°C)', 'Vibração', 'Corrente'], by='Cluster')
+plt.suptitle('')
+plt.title('Boxplot dos Grupos')
+plt.xlabel('Grupos')
+plt.ylabel('Medições')
+plt.show()
